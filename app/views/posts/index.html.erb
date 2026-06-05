@@ -1,0 +1,33 @@
+<% content_for :title, "Blog" %>
+
+<section class="hero">
+  <h1 class="hero-headline">
+    Ideas that matter,<br>
+    <span class="hero-gradient">moving at the right pace.</span>
+  </h1>
+  <p class="hero-subtext">
+    A high-signal space for thoughtful essays on culture, technology, and the art of living deliberately.
+  </p>
+</section>
+
+<main class="posts-main">
+  <div class="posts-header">
+    <span class="posts-label">Latest Writings</span>
+  </div>
+  <div class="posts-list">
+    <% @posts.each do |post| %>
+      <article class="post-card">
+        <div class="post-meta">
+          <span class="post-author"><%= post.name %></span>
+          <span>·</span>
+          <time><%= post.created_at.strftime("%B %-d, %Y") %></time>
+        </div>
+        <h2 class="post-title">
+          <%= link_to post.title, post %>
+        </h2>
+        <p class="post-excerpt"><%= truncate(post.content, length: 180) %></p>
+        <%= link_to post, class: "post-read-link" do %>Read essay <span class="post-read-arrow">→</span><% end %>
+      </article>
+    <% end %>
+  </div>
+</main>

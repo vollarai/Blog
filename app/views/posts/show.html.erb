@@ -1,0 +1,42 @@
+<% content_for :title, @post.title %>
+
+<main class="article-main">
+  <div class="article-back">
+    <%= link_to "← All essays", posts_path %>
+  </div>
+
+  <article class="article-body">
+    <div class="article-meta">
+      <span class="post-author"><%= @post.name %></span>
+      <span>·</span>
+      <time><%= @post.created_at.strftime("%B %-d, %Y") %></time>
+    </div>
+
+    <h1 class="article-title"><%= @post.title %></h1>
+
+    <div class="article-content">
+      <%= simple_format @post.content %>
+    </div>
+  </article>
+
+  <section class="article-comments">
+    <h2 class="comments-heading">Comments</h2>
+
+    <% if @post.comments.any? %>
+      <div class="comments-list">
+        <%= render @post.comments %>
+      </div>
+    <% else %>
+      <p class="comments-empty">No comments yet.</p>
+    <% end %>
+
+    <% if authenticated? %>
+      <div class="comment-form-wrapper">
+        <h3 class="comment-form-heading">Leave a comment</h3>
+        <%= render "comments/form" %>
+      </div>
+    <% else %>
+      <p class="comments-login"><%= link_to "Log in", new_session_path %> to leave a comment.</p>
+    <% end %>
+  </section>
+</main>

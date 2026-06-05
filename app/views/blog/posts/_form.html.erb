@@ -1,0 +1,20 @@
+<%= form_with model: post, url: post.persisted? ? blog_post_path(post) : blog_posts_path do |form| %>
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :content, style: "display: block" %>
+    <%= form.textarea :content %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
