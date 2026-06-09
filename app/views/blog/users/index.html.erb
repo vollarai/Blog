@@ -1,7 +1,17 @@
-<h1><%= pluralize @users.count, "user" %></h1>
+<div class="admin-header">
+  <h1 class="admin-title"><%= pluralize @users.count, "User" %></h1>
+</div>
 
-<% @users.each do |user| %>
-  <div>
-    <%= link_to user.full_name, blog_user_path(user) %>
-  </div>
-<% end %>
+<div class="admin-list">
+  <% @users.each do |user| %>
+    <div class="admin-card">
+      <div>
+        <div class="admin-card-title"><%= user.full_name %></div>
+        <div class="admin-card-meta"><%= user.email_address %></div>
+      </div>
+      <div class="admin-card-actions">
+        <%= link_to "View", blog_user_path(user), class: "btn-secondary" %>
+      </div>
+    </div>
+  <% end %>
+</div>
