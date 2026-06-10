@@ -1,11 +1,18 @@
-<h1><%= t ".title" %></h1>
+<div class="admin-header">
+  <h1 class="admin-title"><%= t ".title" %></h1>
+  <%= link_to "New post", new_blog_post_path, class: "btn-primary" %>
+</div>
 
-<%= link_to "New post", new_blog_post_path %>
-
-<div id="posts">
+<div class="admin-list" id="posts">
   <% @posts.each do |post| %>
-    <div>
-      <%= link_to post.name, blog_post_path(post) %>
+    <div class="admin-card">
+      <div>
+        <div class="admin-card-title"><%= post.title.presence || post.name %></div>
+        <div class="admin-card-meta">by <%= post.name %></div>
+      </div>
+      <div class="admin-card-actions">
+        <%= link_to "View", blog_post_path(post), class: "btn-secondary" %>
+      </div>
     </div>
   <% end %>
 </div>

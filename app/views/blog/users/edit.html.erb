@@ -1,2 +1,7 @@
-<h1>Edit User</h1>
-<%= render "form", user: @user %>
+<%= link_to "← Back", blog_user_path(@user), class: "admin-back-link" %>
+
+<h2 class="settings-section-title">Edit User</h2>
+
+<div class="settings-card">
+  <%= render "form", user: @user %>
+</div>

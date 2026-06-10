@@ -1,20 +1,20 @@
 <%= form_with model: post, url: post.persisted? ? blog_post_path(post) : blog_posts_path do |form| %>
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+  <div class="form-field">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-input" %>
   </div>
 
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
+  <div class="form-field">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-input" %>
   </div>
 
-  <div>
-    <%= form.label :content, style: "display: block" %>
-    <%= form.textarea :content %>
+  <div class="form-field">
+    <%= form.label :content, class: "form-label" %>
+    <%= form.textarea :content, class: "form-textarea" %>
   </div>
 
-  <div>
-    <%= form.submit %>
+  <div class="form-actions">
+    <%= form.submit "Save post", class: "btn-primary" %>
   </div>
 <% end %>

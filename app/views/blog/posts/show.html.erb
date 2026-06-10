@@ -1,28 +1,25 @@
-<p id="notice"><%= notice %></p>
- 
-<p>
-  <b>Name:</b>
-  <%= @post.name %>
-</p>
- 
-<p>
-  <b>Title:</b>
-  <%= @post.title %>
-</p>
- 
-<p>
-  <b>Content:</b>
-  <%= @post.content %>
-</p>
- 
-<h2>Comments</h2>
-<%= render partial: "comments/comment", collection: @post.comments %>
+<%= link_to "← All posts", blog_posts_path, class: "admin-back-link" %>
 
-<h2>Add a comment:</h2>
-<%= render "comments/form"%>
- 
-<br />
- 
-<%= link_to 'Edit Post', edit_blog_post_path(@post) %> |
-<%= link_to 'Delete Post', @post, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %> |
-<%= link_to 'Back to Posts', posts_path %> |
+<div class="admin-detail-card">
+  <div class="admin-detail-row">
+    <span class="admin-detail-label">Author</span>
+    <span class="admin-detail-value"><%= @post.name %></span>
+  </div>
+  <div class="admin-detail-row">
+    <span class="admin-detail-label">Title</span>
+    <span class="admin-detail-value"><%= @post.title %></span>
+  </div>
+  <div class="admin-detail-row">
+    <span class="admin-detail-label">Content</span>
+    <span class="admin-detail-value"><%= @post.content %></span>
+  </div>
+</div>
+
+<div class="form-actions">
+  <%= link_to "Edit", edit_blog_post_path(@post), class: "btn-secondary" %>
+  <%= button_to "Delete", blog_post_path(@post),
+        method: :delete,
+        data: { turbo_confirm: "Are you sure?" },
+        class: "btn-danger",
+        form: { style: "display:inline" } %>
+</div>
