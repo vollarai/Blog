@@ -5,13 +5,14 @@ Rails.application.routes.draw do
 
   namespace :settings do
     resource :profile, only: [ :show, :update ]
+    resource :password, only: [ :show, :update ]
   end
 
   resource :profile, only: [ :show, :update ]
 
   root "posts#index"
 
-   resources :posts, only: [ :index, :show ] do
+  resources :posts, only: [ :index, :show ] do
     resources :comments, only: [ :create, :destroy ]
   end
 
@@ -21,6 +22,7 @@ Rails.application.routes.draw do
 
     root to: redirect("/blog/posts")
   end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

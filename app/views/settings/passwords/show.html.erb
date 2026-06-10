@@ -1,0 +1,28 @@
+<h2 class="settings-section-title">Password</h2>
+
+<div class="settings-card">
+  <%= form_with model: Current.user, url: settings_password_path do |form| %>
+    <% if form.object.errors.any? %>
+      <div class="form-error"><%= form.object.errors.full_messages.first %></div>
+    <% end %>
+
+    <div class="form-field">
+      <%= form.label :password_challenge, "Current password", class: "form-label" %>
+      <%= form.password_field :password_challenge, required: true, autocomplete: "current-password", class: "form-input" %>
+    </div>
+
+    <div class="form-field">
+      <%= form.label :password, "New password", class: "form-label" %>
+      <%= form.password_field :password, required: true, autocomplete: "new-password", class: "form-input" %>
+    </div>
+
+    <div class="form-field">
+      <%= form.label :password_confirmation, "Confirm new password", class: "form-label" %>
+      <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", class: "form-input" %>
+    </div>
+
+    <div class="form-actions">
+      <%= form.submit "Update password", class: "btn-primary" %>
+    </div>
+  <% end %>
+</div>

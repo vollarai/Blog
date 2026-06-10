@@ -4,10 +4,11 @@
       <p class="settings-sidebar-title">Settings</p>
       <nav>
         <%= link_to "Profile", settings_profile_path, class: current_page?(settings_profile_path) ? "nav-active" : "" %>
+        <%= link_to "Password", settings_password_path, class: current_page?(settings_password_path) ? "nav-active" : "" %>
 
         <% if Current.user.admin? %>
-          <%= link_to "Posts", blog_posts_path, class: current_page?(blog_posts_path) ? "nav-active" : "" %>
-          <%= link_to "Users", blog_users_path, class: current_page?(blog_users_path) ? "nav-active" : "" %>
+          <%= link_to "Posts", blog_posts_path, class: request.path.start_with?(blog_posts_path) ? "nav-active" : "" %>
+          <%= link_to "Users", blog_users_path, class: request.path.start_with?(blog_users_path) ? "nav-active" : "" %>
         <% end %>
       </nav>
     </aside>
