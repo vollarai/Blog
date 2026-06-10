@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   attr_readonly :admin
 
