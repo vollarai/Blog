@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   namespace :blog do
     resources :posts
     resources :users
+    resources :images, only: [ :destroy ]
 
     root to: redirect("/blog/posts")
   end

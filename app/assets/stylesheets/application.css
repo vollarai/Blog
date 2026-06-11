@@ -151,6 +151,16 @@ nav.navbar a.nav-active {
   border: 1px solid #222;
   background-color: #141414;
   transition: border-color 0.2s;
+  overflow: hidden;
+}
+
+.post-card-image {
+  display: block;
+  width: 100%;
+  margin-bottom: 12px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
 }
 
 .post-card:hover {
@@ -209,7 +219,7 @@ nav.navbar a.nav-active {
 }
 
 .article-main {
-  max-width: 720px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 48px 24px 96px;
 }
@@ -246,6 +256,16 @@ nav.navbar a.nav-active {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 40px;
+}
+
+.article-image {
+  margin-bottom: 40px;
+}
+
+.article-image img {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
 }
 
 .article-content {

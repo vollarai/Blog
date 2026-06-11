@@ -10,6 +10,7 @@ class Blog::PostsController < Blog::BaseController
 
   def new
     @post = Post.new
+    @post.build_image
   end
 
   def create
@@ -22,6 +23,7 @@ class Blog::PostsController < Blog::BaseController
   end
 
   def edit
+    @post.build_image if @post.image.nil?
   end
 
   def update
@@ -43,6 +45,6 @@ class Blog::PostsController < Blog::BaseController
     end
 
     def post_params
-      params.expect(post: [ :name, :title, :content ])
+      params.expect(post: [ :name, :title, :content, image_attributes: [ :image ] ])
     end
 end
