@@ -3,7 +3,7 @@ class User < ApplicationRecord
   has_many :sessions, dependent: :destroy
   has_many :comments, dependent: :destroy
 
-  attr_readonly :admin
+  bitmask :roles, as: %i[admin user], default: %i[user]
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
