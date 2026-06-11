@@ -1,4 +1,4 @@
-<%= form_with model: post, url: post.persisted? ? blog_post_path(post) : blog_posts_path do |form| %>
+<%= form_with model: post, url: post.persisted? ? blog_post_path(post) : blog_posts_path, multipart: true do |form| %>
   <div class="form-field">
     <%= form.label :name, class: "form-label" %>
     <%= form.text_field :name, class: "form-input" %>
@@ -13,6 +13,19 @@
     <%= form.label :content, class: "form-label" %>
     <%= form.textarea :content, class: "form-textarea" %>
   </div>
+
+  <%= form.fields_for :image do |image_form| %>
+    <div class="form-field">
+      <%= image_form.label :image, "Image", class: "form-label" %>
+      <%= image_form.file_field :image, class: "form-input", accept: "image/*" %>
+      <% if post.image&.image&.present? %>
+        <div style="margin-top: 0.5rem; display: flex; align-items: center; gap: 0.75rem;">
+          <%= image_tag post.image.image.thumb.url, style: "height:60px;" %>
+          <%= link_to "Remove photo", blog_image_path(post.image), data: { turbo_method: :delete, turbo_confirm: "Remove this photo?" }, class: "btn-danger" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 
   <div class="form-actions">
     <%= form.submit "Save post", class: "btn-primary" %>

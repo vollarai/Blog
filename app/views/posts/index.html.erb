@@ -17,6 +17,11 @@
   <div class="posts-list">
     <% @posts.each do |post| %>
       <article class="post-card">
+        <% if post.image&.image&.present? %>
+          <%= link_to post do %>
+            <%= image_tag post.image.image.url, alt: post.title, class: "post-card-image" %>
+          <% end %>
+        <% end %>
         <div class="post-meta">
           <span class="post-author"><%= post.name %></span>
           <span>·</span>

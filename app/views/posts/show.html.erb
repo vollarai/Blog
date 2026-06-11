@@ -14,6 +14,12 @@
 
     <h1 class="article-title"><%= @post.title %></h1>
 
+    <% if @post.image&.image&.present? %>
+      <div class="article-image">
+        <%= image_tag @post.image.image.url, alt: @post.title %>
+      </div>
+    <% end %>
+
     <div class="article-content">
       <%= simple_format @post.content %>
     </div>
