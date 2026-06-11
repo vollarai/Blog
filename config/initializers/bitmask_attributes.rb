@@ -1,0 +1,1 @@
+require "bitmask_attributes"
