@@ -42,6 +42,9 @@ gem "image_processing", "~> 1.2"
 gem "carrierwave", "~> 3.0"
 gem "mini_magick"
 
+gem "wicked_pdf"
+gem "wkhtmltopdf-binary"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"

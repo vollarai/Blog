@@ -1,71 +1,18 @@
 class PostsController < ApplicationController
-  allow_unauthenticated_access
+  allow_unauthenticated_access only: %i[index show]
 
-  # GET /posts or /posts.json
   def index
     @posts = Post.all
   end
 
-  # GET /posts/1 or /posts/1.json
   def show
     @post = Post.find(params[:id])
   end
 
-  # # GET /posts/new
-  # def new
-  #   @post = Post.new
-  # end
-
-  # # GET /posts/1/edit
-  # def edit
-  # end
-
-  # # POST /posts or /posts.json
-  # def create
-  #   @post = Post.new(post_params)
-
-  #   respond_to do |format|
-  #     if @post.save
-  #       format.html { redirect_to @post, notice: "Post was successfully created." }
-  #       format.json { render :show, status: :created, location: @post }
-  #     else
-  #       format.html { render :new, status: :unprocessable_content }
-  #       format.json { render json: @post.errors, status: :unprocessable_content }
-  #     end
-  #   end
-  # end
-
-  # # PATCH/PUT /posts/1 or /posts/1.json
-  # def update
-  #   respond_to do |format|
-  #     if @post.update(post_params)
-  #       format.html { redirect_to @post, notice: "Post was successfully updated.", status: :see_other }
-  #       format.json { render :show, status: :ok, location: @post }
-  #     else
-  #       format.html { render :edit, status: :unprocessable_content }
-  #       format.json { render json: @post.errors, status: :unprocessable_content }
-  #     end
-  #   end
-  # end
-
-  # # DELETE /posts/1 or /posts/1.json
-  # def destroy
-  #   @post.destroy!
-
-  #   respond_to do |format|
-  #     format.html { redirect_to posts_path, notice: "Post was successfully destroyed.", status: :see_other }
-  #     format.json { head :no_content }
-  #   end
-  # end
-
-  # private
-  #   # Use callbacks to share common setup or constraints between actions.
-  #   def set_post
-  #     @post = Post.find(params.expect(:id))
-  #   end
-
-  #   # Only allow a list of trusted parameters through.
-  #   def post_params
-  #     params.expect(post: [ :name, :title, :content ])
-  #   end
+  def pdf
+    @post = Post.find(params[:id])
+    html = render_to_string(template: "posts/pdf", layout: "pdf")
+    pdf_content = WickedPdf.new.pdf_from_string(html, background: true, page_size: "A4", margin: { top: "0", right: "0", bottom: "0", left: "0" }, extra: "--enable-local-file-access")
+    send_data pdf_content, filename: "#{@post.title.parameterize}.pdf", type: "application/pdf"
+  end
 end

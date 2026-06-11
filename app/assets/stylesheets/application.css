@@ -224,6 +224,12 @@ nav.navbar a.nav-active {
   padding: 48px 24px 96px;
 }
 
+.article-back {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .article-back a {
   color: #71717a;
   font-size: 14px;
@@ -232,6 +238,19 @@ nav.navbar a.nav-active {
 }
 
 .article-back a:hover {
+  color: #818cf8;
+}
+
+.pdf-btn {
+  padding: 7px 14px;
+  background: transparent;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: #a1a1aa;
+}
+
+.pdf-btn:hover {
+  border-color: #6366f1;
   color: #818cf8;
 }
 
