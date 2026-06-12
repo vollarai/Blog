@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   namespace :settings do
     resource :profile, only: [ :show, :update ]
     resource :password, only: [ :show, :update ]
+    resource :user, only: [ :show, :destroy ]
+    resource :email, only: [ :show, :update ]
   end
 
   resource :profile, only: [ :show, :update ]
@@ -19,10 +21,14 @@ Rails.application.routes.draw do
 
   namespace :blog do
     resources :posts
-    resources :users
+    resources :users, only: [ :index, :show, :edit, :update, :destroy ]
     resources :images, only: [ :destroy ]
 
     root to: redirect("/blog/posts")
+  end
+
+  namespace :email do
+    resources :confirmations, param: :token, only: [ :show ]
   end
 
   get "up" => "rails/health#show", as: :rails_health_check

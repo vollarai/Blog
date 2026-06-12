@@ -1,0 +1,23 @@
+<h2 class="settings-section-title">Email</h2>
+
+<div class="settings-card">
+  <%= form_with model: Current.user, url: settings_email_path do |form| %>
+    <% if form.object.errors.any? %>
+      <div class="form-error"><%= form.object.errors.full_messages.first %></div>
+    <% end %>
+
+    <div class="form-field">
+      <%= form.label :unconfirmed_email, "New email address", class: "form-label" %>
+      <%= form.email_field :unconfirmed_email, required: true, class: "form-input" %>
+    </div>
+
+    <div class="form-field">
+      <%= form.label :password_challenge, class: "form-label" %>
+      <%= form.password_field :password_challenge, required: true, autocomplete: "current-password", class: "form-input" %>
+    </div>
+
+    <div class="form-actions">
+      <%= form.submit "Update email address", class: "btn-primary" %>
+    </div>
+  <% end %>
+</div>

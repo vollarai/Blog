@@ -744,3 +744,55 @@ nav.navbar a.nav-active {
   font-size: 16px;
   color: #d4d4d8;
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 48px;
+}
+
+.pagination a,
+.pagination em,
+.pagination span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid #222;
+  font: inherit;
+  font-size: 0.875em;
+}
+
+.pagination a {
+  color: #a1a1aa;
+  background: #141414;
+}
+
+.pagination a:hover {
+  border-color: #6366f1;
+  color: white;
+}
+
+.pagination em.current {
+  background: #6366f1;
+  border-color: #6366f1;
+  color: white;
+  font-style: normal;
+}
+
+/* .pagination span.disabled {
+  color: #3f3f46;
+  border-color: #1a1a1a;
+  background: #0f0f0f;
+  cursor: default;
+} */
+
+pagination span.gap {
+  background: none;
+  border-color: transparent;
+  color: #52525b;
+  cursor: default;
+}

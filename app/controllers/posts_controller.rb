@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   allow_unauthenticated_access only: %i[index show]
 
   def index
-    @posts = Post.all
+    @posts = Post.paginate(page: params[:page], per_page: 3)
   end
 
   def show
