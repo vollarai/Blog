@@ -20,6 +20,8 @@ class Blog::UsersController < Blog::BaseController
   end
 
   def destroy
+    @user.destroy
+    redirect_to blog_users_path, status: :see_other, notice: "User has been deleted"
   end
 
   private

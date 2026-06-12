@@ -5,6 +5,8 @@
       <nav>
         <%= link_to "Profile", settings_profile_path, class: current_page?(settings_profile_path) ? "nav-active" : "" %>
         <%= link_to "Password", settings_password_path, class: current_page?(settings_password_path) ? "nav-active" : "" %>
+        <%= link_to "Email", settings_email_path, class: current_page?(settings_email_path) ? "nav-active" : "" %>
+        <%= link_to "Account", settings_user_path, class: current_page?(settings_user_path) ? "nav-active" : "" %>
 
         <% if Current.user.roles?(:admin) %>
           <%= link_to "Posts", blog_posts_path, class: request.path.start_with?(blog_posts_path) ? "nav-active" : "" %>
