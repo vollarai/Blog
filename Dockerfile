@@ -16,16 +16,16 @@ WORKDIR /rails
 
 # Install base packages
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 && \
-    ln -s /usr/lib/$(uname -m)-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so && \
+    apt-get install --no-install-recommends -y build-essential git libvips libyaml-dev pkg-config curl wget libcurl4-openssl-dev 
+    libssl-dev zlib1g-dev libpcre3-dev libjemalloc2 sqlite3 procps imagemagick ibsqlite3-dev && \
+    ln -sf /usr/lib/$(uname -m)-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Set production environment variables and enable jemalloc for reduced memory usage and latency.
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development" \
-    LD_PRELOAD="/usr/local/lib/libjemalloc.so"
+    BUNDLE_WITHOUT="development" 
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
@@ -43,6 +43,10 @@ RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     # -j 1 disable parallel compilation to avoid a QEMU bug: https://github.com/rails/bootsnap/issues/495
     bundle exec bootsnap precompile -j 1 --gemfile
+
+RUN LD_PRELOAD="" bundle exec passenger-install-nginx-module --auto \
+    --languages ruby --prefix=/opt/nginx && \
+    LD_PRELOAD="" bundle exec passenger-config compile-agent
 
 # Copy application code
 COPY . .
@@ -63,15 +67,20 @@ FROM base
 # Run and own only the runtime files as a non-root user for security
 RUN groupadd --system --gid 1000 rails && \
     useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash
-USER 1000:1000
 
 # Copy built artifacts: gems, application
 COPY --chown=rails:rails --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
 COPY --chown=rails:rails --from=build /rails /rails
+COPY --from=build /opt/nginx /opt/nginx
+COPY config/nginx.conf /etc/nginx/conf.d/default.conf
+
+RUN mkdir -p /rails/storage /rails/tmp /rails/log && \
+    chown -R rails:rails /rails/storage /rails/tmp /rails/log && \
+    chmod -R u+rwX /rails/storage /rails/tmp /rails/log
 
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start server via Thruster by default, this can be overwritten at runtime
 EXPOSE 80
-CMD ["./bin/thrust", "./bin/rails", "server"]
+CMD ["/opt/nginx/sbin/nginx", "-c", "/etc/nginx/conf.d/default.conf"]

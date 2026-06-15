@@ -1,0 +1,12 @@
+services:
+  blog:
+    build: .
+    ports:
+      - "80:80"
+    environment:
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+    volumes:
+      - rails_storage:/rails/storage
+
+volumes:
+  rails_storage:
