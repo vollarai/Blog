@@ -1,0 +1,1 @@
+Blog designed for publishing original articles. The system includes an administrator panel responsible for creating and managing content, as well as user accounts that allow users to browse and comment on published articles.
