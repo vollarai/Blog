@@ -16,8 +16,8 @@ WORKDIR /rails
 
 # Install base packages
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libvips libyaml-dev pkg-config curl wget libcurl4-openssl-dev 
-    libssl-dev zlib1g-dev libpcre3-dev libjemalloc2 sqlite3 procps imagemagick ibsqlite3-dev && \
+    apt-get install --no-install-recommends -y build-essential git libvips libyaml-dev pkg-config curl wget libcurl4-openssl-dev \
+    libssl-dev zlib1g-dev libpcre3-dev libjemalloc2 sqlite3 procps imagemagick libsqlite3-dev && \
     ln -sf /usr/lib/$(uname -m)-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
@@ -25,7 +25,7 @@ RUN apt-get update -qq && \
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development" 
+    BUNDLE_WITHOUT="development"
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
@@ -36,8 +36,8 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Install application gems
-COPY vendor/* ./vendor/
-COPY Gemfile Gemfile.lock ./
+COPY app/vendor/* ./vendor/
+COPY app/Gemfile app/Gemfile.lock ./
 
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
@@ -49,7 +49,7 @@ RUN LD_PRELOAD="" bundle exec passenger-install-nginx-module --auto \
     LD_PRELOAD="" bundle exec passenger-config compile-agent
 
 # Copy application code
-COPY . .
+COPY app/ .
 
 # Precompile bootsnap code for faster boot times.
 # -j 1 disable parallel compilation to avoid a QEMU bug: https://github.com/rails/bootsnap/issues/495
@@ -72,7 +72,7 @@ RUN groupadd --system --gid 1000 rails && \
 COPY --chown=rails:rails --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
 COPY --chown=rails:rails --from=build /rails /rails
 COPY --from=build /opt/nginx /opt/nginx
-COPY config/nginx.conf /etc/nginx/conf.d/default.conf
+COPY app/config/nginx.conf /etc/nginx/conf.d/default.conf
 
 RUN mkdir -p /rails/storage /rails/tmp /rails/log && \
     chown -R rails:rails /rails/storage /rails/tmp /rails/log && \
