@@ -1,50 +1,50 @@
 # See https://docs.docker.com/engine/reference/builder/#dockerignore-file for more about ignoring files.
 
 # Ignore git directory.
-/blog/.git/
-/blog/.gitignore
+/app/.git/
+/app/.gitignore
 
 # Ignore bundler config.
-/blog/.bundle
+/app/.bundle
 
 # Ignore all environment files.
-/blog/.env*
+/app/.env*
 
 # Ignore all default key files.
-/blog/config/master.key
-/blog/config/credentials/*.key
+/app/config/master.key
+/app/config/credentials/*.key
 
 # Ignore all logfiles and tempfiles.
-/blog/log/*
-/blog/tmp/*
-!/blog/log/.keep
-!/blog/tmp/.keep
+/app/log/*
+/app/tmp/*
+!/app/log/.keep
+!/app/tmp/.keep
 
 # Ignore pidfiles, but keep the directory.
-/blog/tmp/pids/*
-!/blog/tmp/pids/.keep
+/app/tmp/pids/*
+!/app/tmp/pids/.keep
 
 # Ignore storage (uploaded files in development and any SQLite databases).
-/blog/storage/*
-!/blog/storage/.keep
-/blog/tmp/storage/*
-!/blog/tmp/storage/.keep
+/app/storage/*
+!/app/storage/.keep
+/app/tmp/storage/*
+!/app/tmp/storage/.keep
 
 # Ignore assets.
-/blog/node_modules/
-/blog/app/assets/builds/*
-!/blog/app/assets/builds/.keep
-/blog/public/assets
+/app/node_modules/
+/app/app/assets/builds/*
+!/app/app/assets/builds/.keep
+/app/public/assets
 
 # Ignore CI service files.
-/blog/.github
+/app/.github
 
 # Ignore Kamal files.
-/blog/config/deploy*.yml
-/blog/.kamal
+/app/config/deploy*.yml
+/app/.kamal
 
 # Ignore development files
-/blog/.devcontainer
+/app/.devcontainer
 
 # Ignore Docker-related files
 /.dockerignore
