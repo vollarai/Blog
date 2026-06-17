@@ -1,6 +1,7 @@
 services:
   blog:
-    build: .
+    # build: .
+    image: volla12345/blogg:latest
     ports:
       - "80:80"
     env_file:
