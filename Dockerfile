@@ -83,4 +83,5 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start server via Thruster by default, this can be overwritten at runtime
 EXPOSE 80
-CMD ["/opt/nginx/sbin/nginx", "-c", "/etc/nginx/conf.d/default.conf"]
+# CMD ["/opt/nginx/sbin/nginx", "-c", "/etc/nginx/conf.d/default.conf"]
+CMD ["/opt/nginx/sbin/nginx", "-g", "daemon off;", "-c", "/etc/nginx/conf.d/default.conf"]
