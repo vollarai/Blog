@@ -17,7 +17,7 @@ WORKDIR /rails
 # Install base packages
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git libvips libyaml-dev pkg-config curl wget libcurl4-openssl-dev \
-    libssl-dev zlib1g-dev libpcre3-dev libjemalloc2 sqlite3 procps imagemagick libsqlite3-dev && \
+    libssl-dev zlib1g-dev libpcre3-dev libjemalloc2 libpq-dev procps imagemagick && \
     ln -sf /usr/lib/$(uname -m)-linux-gnu/libjemalloc.so.2 /usr/local/lib/libjemalloc.so && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
@@ -83,4 +83,5 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start server via Thruster by default, this can be overwritten at runtime
 EXPOSE 80
-CMD ["/opt/nginx/sbin/nginx", "-c", "/etc/nginx/conf.d/default.conf"]
+# CMD ["/opt/nginx/sbin/nginx", "-c", "/etc/nginx/conf.d/default.conf"]
+CMD ["/opt/nginx/sbin/nginx", "-g", "daemon off;", "-c", "/etc/nginx/conf.d/default.conf"]
