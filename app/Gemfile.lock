@@ -225,6 +225,12 @@ GEM
       rack (>= 1.6.13)
       rackup (>= 1.0.1)
       rake (>= 12.3.3)
+    pg (1.6.3)
+    pg (1.6.3-aarch64-linux)
+    pg (1.6.3-aarch64-linux-musl)
+    pg (1.6.3-arm64-darwin)
+    pg (1.6.3-x86_64-linux)
+    pg (1.6.3-x86_64-linux-musl)
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
@@ -423,6 +429,7 @@ DEPENDENCIES
   kamal
   mini_magick
   passenger
+  pg (~> 1.1)
   propshaft
   puma (>= 5.0)
   rails (~> 8.1.3)
