@@ -1,7 +1,7 @@
 services:
   blog:
     # build: .
-    image: volla12345/blogg:postgres
+    image: volla12345/blogg:sidekiq
     ports:
       - "80:80"
     env_file:
@@ -18,6 +18,20 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  sidekiq:
+    image: volla12345/blogg:sidekiq
+    command: bundle exec sidekiq
+    env_file:
+      - app/.env
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - rails_storage:/rails/storage
+
+  redis:
+    image: redis:7.2
+  
 volumes:
   rails_storage:
   postgres_data:

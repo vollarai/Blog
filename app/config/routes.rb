@@ -1,4 +1,10 @@
+require "sidekiq/web"
+
 Rails.application.routes.draw do
+  constraints ->(req) { Session.find_by(id: req.cookie_jar.signed[:session_id])&.user&.roles?(:admin) } do
+      mount Sidekiq::Web => "/sidekiq"
+  end
+  
   resource :session
   resources :passwords, param: :token
   resource :sign_up
@@ -20,9 +26,12 @@ Rails.application.routes.draw do
   end
 
   namespace :blog do
-    resources :posts
     resources :users, only: [ :index, :show, :edit, :update, :destroy ]
     resources :images, only: [ :destroy ]
+    resources :pdfs, only: [:index, :show], controller: "pdf"
+    resources :posts do
+      resources :post_pdfs, only: [:index, :create], controller: "pdf"
+    end
 
     root to: redirect("/blog/posts")
   end
