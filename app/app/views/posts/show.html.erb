@@ -3,7 +3,9 @@
 <main class="article-main">
   <div class="article-back">
     <%= link_to "← All essays", posts_path %>
-    <%= link_to "Download PDF", pdf_post_path(@post), class: "pdf-btn", data: { turbo: false } %>
+    <% if authenticated? && Current.user.roles?(:admin) %>
+      <%= button_to "Download PDF", blog_post_post_pdfs_path(@post), class: "btn-secondary" %>
+    <% end %>
   </div>
 
   <article class="article-body">

@@ -11,6 +11,9 @@
         <% if Current.user.roles?(:admin) %>
           <%= link_to "Posts", blog_posts_path, class: request.path.start_with?(blog_posts_path) ? "nav-active" : "" %>
           <%= link_to "Users", blog_users_path, class: request.path.start_with?(blog_users_path) ? "nav-active" : "" %>
+          <% if Pdf.exists? %>
+            <%= link_to "PDFs", blog_pdfs_path, class: request.path.start_with?(blog_pdfs_path) ? "nav-active" : "" %>
+          <% end %>
         <% end %>
       </nav>
     </aside>
