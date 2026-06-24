@@ -1,9 +1,9 @@
 require "sidekiq/web"
 
 Rails.application.routes.draw do
-  constraints ->(req) { Session.find_by(id: req.cookie_jar.signed[:session_id])&.user&.roles?(:admin) } do
-      mount Sidekiq::Web => "/sidekiq"
-  end
+  # constraints ->(req) { Session.find_by(id: req.cookie_jar.signed[:session_id])&.user&.roles?(:admin) } do
+  #     mount Sidekiq::Web => "/sidekiq"
+  # end
   
   resource :session
   resources :passwords, param: :token
@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
   resources :posts, only: [ :index, :show ] do
     member { get :pdf }
-    resources :comments, only: [ :create, :destroy ]
+    resources :comments, only: [ :index, :create, :destroy ]
   end
 
   namespace :blog do

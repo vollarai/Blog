@@ -1,6 +1,7 @@
 class SignUpsController < ApplicationController
   unauthenticated_access_only
-  rate_limit to: 10, within: 3.minutes, only: :create, with: -> { redirect_to sign_up_path, alert: "Try again later." }
+  rate_limit to: 10, within: 3.minutes, only: :create, 
+    with: -> { render json: { error: "Try again later." }, status: too_many_requests}
   def show
     @user = User.new
   end
@@ -8,10 +9,9 @@ class SignUpsController < ApplicationController
   def create
     @user = User.new(sign_up_params)
     if @user.save
-      start_new_session_for(@user)
-      redirect_to root_path
+      render json: { token: generate_token(@user), user: { id: @user.id, email: @user.email_address, name: @user.full_name } }, status: :created
     else
-      render :show, status: :unprocessable_entity
+      render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
     end
   end
 

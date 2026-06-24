@@ -3,7 +3,9 @@ module Authorization
 
   class_methods do
     def admin_access_only(**options)
-      before_action -> { redirect_to root_path, alert: "You aren't allowed to do that." unless authenticated? && Current.user.roles?(:admin) }, **options
+      before_action(-> {
+        render json: { error: "Forbidden" }, status: :forbidden unless current_user&.roles?(:admin)
+      }, **options)
     end
   end
 end
