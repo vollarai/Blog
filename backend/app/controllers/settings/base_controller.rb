@@ -1,3 +1,3 @@
 class Settings::BaseController < ApplicationController
-  layout "settings"
+  # layout "settings"
 end

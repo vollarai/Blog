@@ -4,9 +4,9 @@ class Settings::ProfilesController < Settings::BaseController
 
   def update
     if Current.user.update(profile_params)
-      redirect_to settings_profile_path, status: :see_other, notice: "Your profile was updated successfully."
+      render json: { user: Current.user }, status: :ok
     else
-      render :show, status: :unprocessable_entity
+      render json: { errors: Current.user.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
