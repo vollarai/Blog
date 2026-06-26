@@ -57,7 +57,7 @@ async function submit() {
             body: data
         })
         const body = await res.json()
-        if(!res.ok) throw new Error(body.errors?.join(', ') || 'Failed to update post')
+        if(!res.ok) throw new Error(body.errors?.join(', ') || 'Failed to update post' )
         router.push('/settings/posts')
     } catch (err) {
         error.value = err.toString()
@@ -67,7 +67,7 @@ async function submit() {
 </script>
 
 <template>
-    <div class="settings-section-title">Editing Post</div>
+    <div class="settings-section-title">Edit Post</div>
 
     <div class="article-back">
         <RouterLink to="/settings/posts" class="post-read-link">

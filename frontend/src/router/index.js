@@ -32,10 +32,10 @@ const routes = [
       { path: 'account', component: AccountView },
       { path: 'posts', component: PostsView, meta: { requiresAdmin: true } },
       { path: 'posts/:id/edit', component: EditPostView, meta: { requiresAdmin: true } },
+      { path: 'posts/new', component: NewPostView, meta: { requiresAdmin: true } },    
       { path: 'users', component: UsersView, meta: { requiresAdmin: true } },
       { path: 'users/:id/edit', component: EditUserView, meta: { requiresAdmin: true } },
       { path: 'pdfs', component: PdfsView, meta: { requiresAdmin: true } },
-      { path: 'posts/new', component: NewPostView, meta: { requiresAdmin: true } },    
     ]
   },
 ]
