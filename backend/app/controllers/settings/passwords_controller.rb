@@ -4,9 +4,10 @@ class Settings::PasswordsController < Settings::BaseController
 
   def update
     if Current.user.update(password_params)
-      redirect_to settings_profile_path, status: :see_other, notice: "Your password has been updated."
+      render json: { message: "Your password has been updated." }
     else
-      render :show, status: :unprocessable_entity
+      Rails.logger.error "Password update failed: #{Current.user.errors.full_messages}"
+      render json: { errors: Current.user.errors.full_messages }, status: :unprocessable_entity
     end
   end
 

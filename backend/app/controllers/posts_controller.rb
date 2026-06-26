@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   allow_unauthenticated_access only: %i[index show]
 
   def index
-    posts = Post.includes(:image).paginate(page: params[:page], per_page: 3)
+    posts = Post.includes(:image).order(created_at: :desc).paginate(page: params[:page], per_page: 3)
     render json: {
       posts: posts.map { |post|
         post.as_json.merge(image_url: post.image&.image&.url)

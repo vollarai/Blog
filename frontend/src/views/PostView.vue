@@ -3,8 +3,7 @@ import { fetchPost } from '@/api/posts'
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { fetchComments, createComment } from '@/api/comments'
-
-// const isLogged = computed(() => !!localStorage.getItem('token'))
+import { isLoggedIn } from '@/api/auth'
 const route = useRoute()
 const loading = ref(false)
 const post = ref(null)
@@ -54,7 +53,7 @@ function formatDate(dateStr) {
 <template>
     <main class="article-main">
         <div class="article-back">
-            <RouterLink to="/"><- All essays</RouterLink>
+            <RouterLink to="/" class="post-read-link"><span class="post-read-arrow"><-</span>All essays</RouterLink>
         </div>
 
         <div v-if="loading" class="loading">Loading...</div>

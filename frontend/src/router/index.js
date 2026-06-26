@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { isLoggedIn, currentUser as authUser } from '@/api/auth'
 
 import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
@@ -12,6 +13,9 @@ import PostsView from '@/views/PostsView.vue'
 import AccountView from '@/views/AccountView.vue'
 import UsersView from '@/views/UsersView.vue'
 import PdfsView from '@/views/PdfsView.vue'
+import NewPostView from '@/views/NewPostView.vue'
+import EditPostView from '@/views/EditPostView.vue'
+import EditUserView from '@/views/EditUserView.vue'
 
 const routes = [
   { path: '/', component: HomeView },
@@ -19,14 +23,19 @@ const routes = [
   { path: '/signup', component: SignupView},
   { path: '/posts/:id', component: PostView },
   { path: '/settings/', component: Settings,
+    meta: { requiresAuth: true },
+    redirect: '/settings/profile',
     children: [
       { path: 'profile', component: ProfileView },
       { path: 'password', component: PasswordView },
       { path: 'email', component: EmailView },
       { path: 'account', component: AccountView },
-      { path: 'posts', component: PostsView },
-      { path: 'users', component: UsersView },
-      { path: 'pdfs', component: PdfsView },
+      { path: 'posts', component: PostsView, meta: { requiresAdmin: true } },
+      { path: 'posts/:id/edit', component: EditPostView, meta: { requiresAdmin: true } },
+      { path: 'users', component: UsersView, meta: { requiresAdmin: true } },
+      { path: 'users/:id/edit', component: EditUserView, meta: { requiresAdmin: true } },
+      { path: 'pdfs', component: PdfsView, meta: { requiresAdmin: true } },
+      { path: 'posts/new', component: NewPostView, meta: { requiresAdmin: true } },    
     ]
   },
 ]
@@ -34,4 +43,9 @@ const routes = [
 export const router = createRouter({
   history: createWebHistory(),
   routes,
+})
+
+router.beforeEach((to) => {
+  if (to.meta.requiresAuth && !isLoggedIn.value) return '/login'
+  if (to.meta.requiresAdmin && !authUser.value?.admin) return '/settings/profile'
 })

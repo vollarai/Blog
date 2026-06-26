@@ -1,5 +1,5 @@
 <script setup>
-import { fetchPosts } from '@/api/posts'
+import { adminFetchPosts } from '@/api/posts'
 import { ref, onMounted, watch, computed } from 'vue'
 
 const loading = ref(false)
@@ -13,7 +13,7 @@ async function fetchData(page) {
     loading.value = true
 
     try {
-        const data = await fetchPosts(page)
+        const data = await adminFetchPosts(page)
         posts.value = data.posts
         totalPages.value = data.meta.total_pages
     } catch (err) {
@@ -47,11 +47,12 @@ const pages = computed(() =>
             <div class="admin-card-meta"> by {{ post.name }}</div>
 
             <div class="admin-card-action">
-                 <RouterLink to="/posts/${post.id}" class="btn-primary">View</RouterLink>
+                <RouterLink :to="`/posts/${post.id}`" class="btn-secondary">View</RouterLink>
+                <RouterLink :to="`/settings/posts/${post.id}/edit`" class="btn-secondary">Edit</RouterLink>
             </div>
         </div>
 
-        <div class="paginate">
+        <div v-if="totalPages > 1" class="paginate">
             <button :disabled="currentPage === 1" @click="currentPage--"><<</button>
                 <button v-for="page in pages" :key="page" @click="currentPage = page" :class="{ active: page === currentPage }">
                     {{ page }}
@@ -64,7 +65,7 @@ const pages = computed(() =>
 </template>
 
 <style scoped>
-    .btn-primary{
-        margin-left: 50px;
+    .btn-secondary{
+        margin-left: 20px;
     }
 </style>

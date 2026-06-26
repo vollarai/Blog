@@ -2,10 +2,19 @@ class Blog::UsersController < Blog::BaseController
   before_action :set_user, only: %i[ show edit update destroy ]
 
   def index
-    @users = User.paginate(page: params[:page], per_page: 10)
+    users = User.order(created_at: :desc).paginate(page: params[:page], per_page: 10)
+    render json: {
+      users: users.map { |user| user.as_json },
+      meta: {
+        current_page: users.current_page,
+        total_pages: users.total_pages,
+        total_entries: users.total_entries
+      }
+    }
   end
 
   def show
+    render json: @user.as_json
   end
 
   def edit
@@ -13,15 +22,15 @@ class Blog::UsersController < Blog::BaseController
 
   def update
     if @user.update(user_params)
-      redirect_to blog_user_path(@user), status: :see_other, notice: "User has been updated"
+      render json: { id: @user.id}
     else
-      render :edit, status: :unprocessable_entity
+      render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def destroy
     @user.destroy
-    redirect_to blog_users_path, status: :see_other, notice: "User has been deleted"
+    render json: { message: 'User deleted.' }
   end
 
   private

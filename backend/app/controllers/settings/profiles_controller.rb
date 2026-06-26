@@ -7,6 +7,7 @@ class Settings::ProfilesController < Settings::BaseController
       render json: { user: Current.user }, status: :ok
     else
       render json: { errors: Current.user.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: Current}
     end
   end
 

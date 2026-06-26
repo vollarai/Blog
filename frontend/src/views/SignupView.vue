@@ -13,11 +13,13 @@ const router = useRouter()
 
 async function submit() {
     error.value = null
+    if (password.value !== passwordConfirmation.value) {
+        error.value = 'Passwords do not match'
+        return
+    }
     try {
-        const data = await signup(firstName.value, lastName.value, email.value, password.value)
-        localStorage.setItem('token', data.token)
-        localStorage.setItem('user', JSON.stringify(data.user))
-        router.push('/login')
+        await signup(firstName.value, lastName.value, email.value, password.value, passwordConfirmation.value)
+        router.push('/')
     } catch (err) {
         error.value = err.toString()
     }
@@ -57,7 +59,7 @@ async function submit() {
                 <input v-model="passwordConfirmation" type="password" class="form-input"/>
             </div>
 
-            <button class="btn-primary" @click="submit">Sign in</button>
+            <button class="btn-primary" @click="submit">Sign up</button>
             <p class="auth-footer">Already have an account?<RouterLink to="/login"> Sign in</RouterLink></p>
         </div>
     </div>

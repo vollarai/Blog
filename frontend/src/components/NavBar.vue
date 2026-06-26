@@ -1,10 +1,13 @@
 <script setup>
 import { useRouter } from 'vue-router'
+import { isLoggedIn, clearAuth } from '@/api/auth'
 
 const router = useRouter()
 
-//const isLogged = computed(() => !!localStorage.getItem('token'))
-
+function logout() {
+    clearAuth()
+    router.push('/login')
+}
 </script>
 
 <template>
@@ -17,9 +20,14 @@ const router = useRouter()
 
             <nav class="navbar">
                 <RouterLink to="/" active-class="nav-active">Home</RouterLink>
-                <RouterLink to="/login" active-class="nav-active">Login</RouterLink>
-                <RouterLink to="/signup" active-class="nav-active">Sign Up</RouterLink>
-                <RouterLink to="/settings" active-class="nav-active" router-link-exact-active>Settings</RouterLink>
+                <template v-if="isLoggedIn">
+                    <RouterLink to="/settings" active-class="nav-active">Settings</RouterLink>
+                    <button class="nav-logout" @click="logout">Log out</button>
+                </template>
+                <template v-else>
+                    <RouterLink to="/login" active-class="nav-active">Login</RouterLink>
+                    <RouterLink to="/signup" active-class="nav-active">Sign Up</RouterLink>
+                </template>
             </nav>
         </div>
     </header>

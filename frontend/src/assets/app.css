@@ -115,7 +115,8 @@ nav.navbar a.nav-active {
 .hero-subtext {
   font-size: 18px;
   color: #a1a1aa;
-  max-width: 560px;
+  max-width: 900px;
+  min-width: 900px;
   line-height: 1.7;
 }
 
@@ -153,6 +154,7 @@ nav.navbar a.nav-active {
   background-color: #141414;
   transition: border-color 0.2s;
   overflow: hidden;
+  min-width: 900px;
 }
 
 .post-card-image {
@@ -223,6 +225,7 @@ nav.navbar a.nav-active {
   max-width: 900px;
   margin: 0 auto;
   padding: 48px 24px 96px;
+  min-width: 800px;
 }
 
 .article-back {
@@ -236,6 +239,10 @@ nav.navbar a.nav-active {
   font-size: 14px;
   text-decoration: none;
   transition: color 0.2s;
+}
+
+.article-back a:hover .post-read-arrow {
+  transform: translateX(-4px);
 }
 
 .article-back a:hover {
@@ -395,6 +402,7 @@ nav.navbar a.nav-active {
 
 .settings-layout {
   max-width: 900px;
+  min-width: 900px;
   margin: 0 auto;
   padding: 48px 24px 96px;
   display: flex;
@@ -518,7 +526,7 @@ nav.navbar a.nav-active {
 
 .btn-primary {
   display: inline-block;
-  padding: 10px 20px;
+  padding: 8px 16px;
   background-color: #6366f1;
   color: white;
   border: none;
@@ -831,4 +839,20 @@ pagination span.gap {
 .paginate button:disabled {
   opacity: 0.3;
   cursor: default;
+}
+
+input[type="file"]::file-selector-button {
+    background-color: #1f1f1f;
+    color: #a1a1aa;
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+input[type="file"]::file-selector-button:hover {
+    border-color: #6366f1;
+    color: white;
 }

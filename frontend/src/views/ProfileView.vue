@@ -1,9 +1,7 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { updateProfile } from '@/api/auth'
 
-const router = useRouter() 
 const stored = JSON.parse(localStorage.getItem('user') || '{}')
 const firstName = ref(stored.first_name || '')
 const lastName = ref(stored.last_name || '')
@@ -30,7 +28,7 @@ async function update() {
     <div v-if="success" class="auth-flash-success">{{ success }}</div>
     <div v-if="error" class="auth-flash-error">{{ error }}</div>
 
-    <div class="setting-card">
+    <div class="settings-card">
         <div class="form-field">
             <label class="form-label">First Name</label>
             <input v-model="firstName" type="text" class="form-input" />  
@@ -42,7 +40,7 @@ async function update() {
         </div>
 
         <div class="form-actions">
-            <button class="btn-primary" @click="updateProfile">Update profile</button>
+            <button class="btn-primary" @click="update">Update profile</button>
         </div>
     </div>
 </template>

@@ -2,10 +2,19 @@ class Blog::PostsController < Blog::BaseController
   before_action :set_post, only: %i[ show edit update destroy ]
 
   def index
-    @posts = Post.paginate(page: params[:page], per_page: 10)
+    posts = Post.includes(:image).order(created_at: :desc).paginate(page: params[:page], per_page: 10)
+    render json: {
+      posts: posts.map { |post| post.as_json.merge(image_url: post.image&.image&.url) },
+      meta: {
+        current_page: posts.current_page,
+        total_pages: posts.total_pages,
+        total_entries: posts.total_entries
+      }
+    }
   end
 
   def show
+    render json: @post.as_json.merge(image_url: @post.image&.image&.url)
   end
 
   def new
@@ -16,9 +25,9 @@ class Blog::PostsController < Blog::BaseController
   def create
     @post = Post.new(post_params)
     if @post.save
-      redirect_to blog_post_path(@post)
+      render json: { id: @post.id }, status: :created
     else
-      render :new, status: :unprocessable_entity
+      render json: { errors: @post.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -28,15 +37,15 @@ class Blog::PostsController < Blog::BaseController
 
   def update
     if @post.update(post_params)
-      redirect_to blog_post_path(@post)
+      render json: { id: @post.id }
     else
-      render :edit, status: :unprocessable_entity
+      render json: { errors: @post.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def destroy
     @post.destroy
-    redirect_to blog_posts_path
+    render json: { message: 'Post deleted.' }
   end
 
   private

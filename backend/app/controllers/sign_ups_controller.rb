@@ -9,7 +9,7 @@ class SignUpsController < ApplicationController
   def create
     @user = User.new(sign_up_params)
     if @user.save
-      render json: { token: generate_token(@user), user: { id: @user.id, email: @user.email_address, name: @user.full_name } }, status: :created
+      render json: { token: generate_token(@user), user: { id: @user.id, email: @user.email_address, name: @user.full_name, admin: @user.roles.include?(:admin) } }, status: :created
     else
       render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
     end

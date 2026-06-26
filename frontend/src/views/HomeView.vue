@@ -1,10 +1,6 @@
 <script setup>
 import { onMounted, ref, watch, computed } from 'vue'
-import { useRoute } from 'vue-router'
 import { fetchPosts } from '@/api/posts'
-import { router } from '@/router'
-
-const route = useRoute()
 
 const loading = ref(false)
 const posts = ref(null)
@@ -75,7 +71,7 @@ const pages = computed(() =>
       </article>
     </div>
 
-    <div class="paginate">
+    <div v-if="totalPages > 1" class="paginate">
       <button :disabled="currentPage === 1" @click="currentPage--"><<</button>
       <button v-for="page in pages" :key="page" @click="currentPage = page" :class="{ active: page === currentPage }">
         {{ page }}
