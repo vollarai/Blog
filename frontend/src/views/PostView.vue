@@ -1,9 +1,10 @@
 <script setup>
 import { fetchPost } from '@/api/posts'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { fetchComments, createComment } from '@/api/comments'
-import { isLoggedIn } from '@/api/auth'
+import { isLoggedIn, currentUser } from '@/api/auth'
+
 const route = useRoute()
 const loading = ref(false)
 const post = ref(null)
@@ -11,6 +12,8 @@ const error = ref(null)
 const comments = ref([])
 const commentError = ref(null)
 const commentBody = ref('')
+const isAdmin = computed(() => currentUser.value?.admin === true)
+const pdfMessage = ref(null)
 
 async function fetchData(id) {
     error.value = null 
@@ -48,12 +51,29 @@ onMounted(() => {
 function formatDate(dateStr) {
   return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
 }
+
+async function generatePdf() {
+    const token = localStorage.getItem('token')
+    const res = await fetch(`/api/blog/posts/${route.params.id}/post_pdfs`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` }
+    })
+    pdfMessage.value = res.ok ? 'PDF is being generated.' : 'Failed to start generation.'
+}
+
 </script>
 
 <template>
     <main class="article-main">
         <div class="article-back">
-            <RouterLink to="/" class="post-read-link"><span class="post-read-arrow"><-</span>All essays</RouterLink>
+            <RouterLink to="/" class="post-read-link">
+                <span class="post-read-arrow"><-</span>All essays
+            </RouterLink>
+            
+            <div v-if="isAdmin" style="display:flex; gap:8px; align-items:center;">
+                <span v-if="pdfMessage" style="font-size:13px; color:#a1a1aa;">{{ pdfMessage }}</span>
+                <button class="pdf-btn" @click="generatePdf">Download PDF</button>
+            </div>
         </div>
 
         <div v-if="loading" class="loading">Loading...</div>

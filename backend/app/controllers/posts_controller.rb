@@ -15,6 +15,17 @@ class PostsController < ApplicationController
     }
   end
 
+  def pdf
+    post = Post.find(params[:id])
+    pdf = post.pdfs.processed.last
+    if pdf&.file&.attached?
+      send_data pdf.file.download, filename: "#{pdf.filename}.pdf", type: "application/pdf"
+    else
+      render json: { error: 'No PDF available' }, status: :not_found
+    end
+  end
+
+
   def show
     post = Post.includes(:image).find(params[:id])
     render json: post.as_json.merge(image_url: post.image&.image&.url)

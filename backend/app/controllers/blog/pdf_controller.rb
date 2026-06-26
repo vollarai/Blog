@@ -5,12 +5,16 @@ class Blog::PdfController < Blog::BaseController
   end
 
   def index
-    if params[:post_id]
-      @post = Post.find(params[:post_id])
-      @pdfs = @post.pdfs
-    else
-      @pdfs = Pdf.all.includes(:post)
-    end
+    pdfs = Pdf.all.includes(:post)
+    render json: {
+      pdfs: pdfs.map { |pdf| {
+        id: pdf.id,
+        filename: pdf.file.attached? ? pdf.file.filename.to_s : "#{pdf.filename}.pdf",
+        status: pdf.status,
+        post_title: pdf.post.title,
+        downloadable: pdf.processed? && pdf.file.attached?
+      }}
+    }
   end
 
   def create
@@ -21,7 +25,7 @@ class Blog::PdfController < Blog::BaseController
 
     PdfDownloadingJob.perform_later(post_pdf.id)
 
-    redirect_to post_path(@post)
+    render json: { message: 'PDF generation started.' }
   end
 
 end
