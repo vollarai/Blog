@@ -9,7 +9,7 @@ Prerequisites: Docker and Docker Compose installed.
 1. Copy the example env file and fill in the required values:
 
    ```bash
-   cp app/.env.example app/.env
+   cp backend/.env.example backend/.env
    ```
 
 2. Start the app:
@@ -18,4 +18,5 @@ Prerequisites: Docker and Docker Compose installed.
    docker compose up
    ```
 
-3. Open [http://localhost](http://localhost) in your browser.
+
+3. Open [http://localhost:3001](http://localhost:3001) in your browser.
