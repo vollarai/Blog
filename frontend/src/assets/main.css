@@ -1,0 +1,8 @@
+@import './base.css';
+@import './app.css';
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
