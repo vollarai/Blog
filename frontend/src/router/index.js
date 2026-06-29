@@ -16,6 +16,7 @@ import PdfsView from '@/views/PdfsView.vue'
 import NewPostView from '@/views/NewPostView.vue'
 import EditPostView from '@/views/EditPostView.vue'
 import EditUserView from '@/views/EditUserView.vue'
+import StatisticsView from '@/views/StatisticsView.vue'
 
 const routes = [
   { path: '/', component: HomeView },
@@ -30,6 +31,7 @@ const routes = [
       { path: 'password', component: PasswordView },
       { path: 'email', component: EmailView },
       { path: 'account', component: AccountView },
+      { path: 'statistics', component: StatisticsView, meta: { requiresAdmin: true } },
       { path: 'posts', component: PostsView, meta: { requiresAdmin: true } },
       { path: 'posts/:id/edit', component: EditPostView, meta: { requiresAdmin: true } },
       { path: 'posts/new', component: NewPostView, meta: { requiresAdmin: true } },    

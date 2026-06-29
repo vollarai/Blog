@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   end
 
   namespace :blog do
+    resource :statistics, only: [:show], controller: "statistics"
     resources :users, only: [ :index, :show, :edit, :update, :destroy ]
     resources :images, only: [ :destroy ]
     resources :pdfs, only: [:index, :show], controller: "pdf"

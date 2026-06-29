@@ -26,9 +26,20 @@ async function fetchData(page) {
 onMounted (() => fetchData(1))
 watch(currentPage, (page) => fetchData(page))
 
-const pages = computed(() =>
-  Array.from({ length: totalPages.value }, (_, i) => i + 1)
-)
+const pages = computed(() => {
+    const range = 2
+    const start = Math.max(2, currentPage.value - range)
+    const end = Math.min(totalPages.value - 1, currentPage.value + range)
+    const middle = Array.from({ length: Math.max(0, end - start + 1) }, (_, i) => start + i)
+
+    const result = []
+    result.push(1)
+    if (start > 2) result.push('...')
+    result.push(...middle)
+    if (end < totalPages.value - 1) result.push('...')
+    if (totalPages.value > 1) result.push(totalPages.value)
+    return result
+})
 
 </script>
 
@@ -43,8 +54,10 @@ const pages = computed(() =>
 
     <div v-if="posts" class="admin-list">
         <div class="admin-card" v-for="post in posts" :key="post.id">
-            <div class="admin-card-title">{{ post.title }}</div>
-            <div class="admin-card-meta"> by {{ post.name }}</div>
+            <div>
+                <div class="admin-card-title">{{ post.title }}</div>
+                <div class="admin-card-meta"> by {{ post.name }}</div>
+            </div>
 
             <div class="admin-card-action">
                 <RouterLink :to="`/posts/${post.id}`" class="btn-secondary">View</RouterLink>
