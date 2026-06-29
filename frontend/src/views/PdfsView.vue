@@ -8,7 +8,9 @@ onMounted(async () => {
     error.value = null
     const token = localStorage.getItem('token')
     try {
-        const res = await fetch('/api/blog/pdfs', { headers: { 'Authorization': `Bearer ${token}` } })
+        const res = await fetch('/api/blog/pdfs', {
+            headers: { 'Authorization': `Bearer ${token}` } 
+        })
         if (!res.ok) throw new Error('Failed to load PDFs')
         const data = await res.json()
         pdfs.value = data.pdfs
@@ -18,6 +20,22 @@ onMounted(async () => {
 })
 
 async function downloadPdf(pdf) {
+  const token = localStorage.getItem('token')
+  try {
+    const res = await fetch(`/api/blog/pdfs/${pdf.id}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+    if (!res.ok) throw new Error('Download failed')
+    const blob = await res.blob()
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = pdf.filename
+    a.click()
+    URL.revokeObjectURL(url)
+  } catch (err) {
+    error.value = err.toString()
+  }
 }
 
 </script>

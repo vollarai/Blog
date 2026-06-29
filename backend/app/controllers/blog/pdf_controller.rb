@@ -5,7 +5,8 @@ class Blog::PdfController < Blog::BaseController
   end
 
   def index
-    pdfs = Pdf.all.includes(:post)
+    # pdfs = Pdf.all.includes(:post)
+    pdfs = Pdf.order(created_at: :desc)
     render json: {
       pdfs: pdfs.map { |pdf| {
         id: pdf.id,

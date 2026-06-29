@@ -39,7 +39,7 @@ services:
       - redis
     volumes:
       - ./backend:/app
-      - rails_storage:/rails/storage
+      - rails_storage:/app/storage
 
   redis:
     image: redis:7.2
