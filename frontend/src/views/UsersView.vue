@@ -26,9 +26,20 @@ async function fetchData(page) {
 onMounted (() => fetchData(1))
 watch(currentPage, (page) => fetchData(page))
 
-const pages = computed(() =>
-  Array.from({ length: totalPages.value }, (_, i) => i + 1)
-)
+const pages = computed(() => {
+    const range = 2
+    const start = Math.max(2, currentPage.value - range)
+    const end = Math.min(totalPages.value - 1, currentPage.value + range)
+    const middle = Array.from({ length: Math.max(0, end - start + 1) }, (_, i) => start + i)
+
+    const result = []
+    result.push(1)
+    if (start > 2) result.push('...')
+    result.push(...middle)
+    if (end < totalPages.value - 1) result.push('...')
+    if (totalPages.value > 1) result.push(totalPages.value)
+    return result
+})
 
 </script>
 
@@ -48,6 +59,14 @@ const pages = computed(() =>
                 <RouterLink :to="`/settings/users/${user.id}/edit`" class="btn-secondary">Edit</RouterLink>
             </div>
         </div>
+    </div>
+
+    <div v-if="totalPages > 1" class="paginate">
+        <button :disabled="currentPage === 1" @click="currentPage--"><<</button>
+            <button v-for="page in pages" :key="page" @click="currentPage = page" :class="{ active: page === currentPage }">
+                {{ page }}
+            </button>
+        <button :disabled="currentPage === totalPages" @click="currentPage++">>></button>
     </div>
 </template>
 

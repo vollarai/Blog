@@ -6,7 +6,7 @@ class Blog::PdfController < Blog::BaseController
 
   def index
     # pdfs = Pdf.all.includes(:post)
-    pdfs = Pdf.order(created_at: :desc)
+    pdfs = Pdf.order(created_at: :desc).paginate(page: params[:page], per_page: 10)
     render json: {
       pdfs: pdfs.map { |pdf| {
         id: pdf.id,
@@ -14,7 +14,12 @@ class Blog::PdfController < Blog::BaseController
         status: pdf.status,
         post_title: pdf.post.title,
         downloadable: pdf.processed? && pdf.file.attached?
-      }}
+      }},
+      meta: {
+        current_page: pdfs.current_page,
+        total_pages: pdfs.total_pages,
+        total_entries: pdfs.total_entries
+      }
     }
   end
 

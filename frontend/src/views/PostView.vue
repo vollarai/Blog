@@ -101,7 +101,11 @@ async function generatePdf() {
 
             <div class="comments-list">
                 <div class="comment" v-for="c in comments" :key="c.id">
-                <div class="comment-author">{{ c.author }}</div>
+                <div class="comment-author">
+                    {{ c.author }}
+                    <span>  ·  </span>
+                    <span>{{ formatDate(c.created_at) }}</span>
+                </div>
                 <p class="comment-body">{{ c.body }}</p>
                 </div>
             </div>

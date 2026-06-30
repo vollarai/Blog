@@ -29,6 +29,7 @@ onMounted(async () => {
         <RouterLink to="/settings/email" active-class="nav-active">Email</RouterLink>
         <RouterLink to="/settings/account" active-class="nav-active">Account</RouterLink>
         <template v-if="isAdmin">
+          <RouterLink to="/settings/statistics" active-class="nav-active">Statistics</RouterLink>
           <RouterLink to="/settings/posts" active-class="nav-active">Posts</RouterLink>
           <RouterLink to="/settings/users" active-class="nav-active">Users</RouterLink>
           <RouterLink v-if="hasPdfs" to="/settings/pdfs" active-class="nav-active">Pdfs</RouterLink>
